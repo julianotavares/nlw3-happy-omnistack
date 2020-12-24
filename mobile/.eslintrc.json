@@ -41,7 +41,6 @@
     "import/prefer-default-export": "off",
     "import/no-duplicates": "off",
     "@typescript-eslint/explicit-module-boundary-types": "off",
-    "@typescript-eslint/explicit-function-return-type": "off",
     "no-use-before-define": ["error",
       {
          "functions": true, "classes": true
