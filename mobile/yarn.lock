@@ -1025,6 +1025,11 @@
     exec-sh "^0.3.2"
     minimist "^1.2.0"
 
+"@expo-google-fonts/nunito@^0.1.0":
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/@expo-google-fonts/nunito/-/nunito-0.1.0.tgz#663caf8d99ee20dfd570c8ebefbacae4f1789d60"
+  integrity sha512-9IQtlKj029h1XtSyhQck5yBi2nLJXHF3Uqmt2w7nxABTv99QYzCsIAaULmttxcZlJsyUMNMz3Fyor6UgfIV5cA==
+
 "@expo/babel-preset-cli@0.2.18":
   version "0.2.18"
   resolved "https://registry.yarnpkg.com/@expo/babel-preset-cli/-/babel-preset-cli-0.2.18.tgz#136acf8a0efe259e29ebc614b68552e5acb47d86"
@@ -1072,7 +1077,7 @@
     lodash "^4.17.15"
     write-file-atomic "^2.3.0"
 
-"@expo/vector-icons@^12.0.0":
+"@expo/vector-icons@^12.0.0", "@expo/vector-icons@^12.0.2":
   version "12.0.2"
   resolved "https://registry.yarnpkg.com/@expo/vector-icons/-/vector-icons-12.0.2.tgz#ffb65a547091abcc529686be21b63ebf4cad041b"
   integrity sha512-VJZDyMvSzgZrIKeytBcxZ7Ll0iBDBAXaVLVR7nMgmhAPERnxdbqUfP6/wrxl6tETzRnG0Xzu9d64jcQRtechlg==
