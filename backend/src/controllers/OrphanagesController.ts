@@ -35,6 +35,7 @@ export default {
       latitude,
       longitude,
       about,
+      whatsapp,
       instructions,
       opening_hours,
       open_on_weekend
@@ -45,15 +46,14 @@ export default {
 
      const requestImages = request.files as Express.Multer.File[];
 
-     const images = requestImages.map(image =>{
-       return { path: image.filename }
-     });
+     const images = requestImages.map(image => ({ path: image.filename }));
 
      const data = {
         name,
         latitude,
         longitude,
         about,
+        whatsapp,
         instructions,
         opening_hours,
         open_on_weekend: open_on_weekend === 'true',
@@ -65,14 +65,14 @@ export default {
       latitude: Yup.number().required(),
       longitude: Yup.number().required(),
       about: Yup.string().required(). max(300),
+      whatsapp: Yup.string().required(),
       instructions: Yup.string().required(),
       opening_hours: Yup.string().required(),
       open_on_weekend: Yup.boolean().required(),
       images: Yup.array(
         Yup.object().shape({
          path: Yup.string().required()
-      })
-      )
+      })),
      });
 
      await schema.validate(data, {
@@ -83,6 +83,6 @@ export default {
   
      await orphanagesRepository.save(orphanage);
   
-    return response.status(201).json(orphanage);
+     return response.status(201).json(orphanageView.render(orphanage));
   }
 }

@@ -20,6 +20,9 @@ export default class Orphanage {
 	about: string;
 
 	@Column()
+	whatsapp: string;
+
+	@Column()
 	instructions: string;
 
 	@Column()

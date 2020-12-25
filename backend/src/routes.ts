@@ -14,13 +14,13 @@ const upload = multer(uploadConfig);
 
 routes.post('/users', UserController.create);
 
-routes.post('/sessions', SessionController.store);
+// routes.post('/sessions', SessionController.store);
 
 routes.get('/orphanages', OrphanagesController.index);
 routes.get('/orphanages/:id', OrphanagesController.show);
 routes.post('/orphanages', upload.array('images'), OrphanagesController.create);
 
-routes.use(authMiddleware); 
+// routes.use(authMiddleware); 
 routes.get('/users', UserController.index);
 
 export default routes;

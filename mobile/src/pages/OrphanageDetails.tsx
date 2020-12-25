@@ -10,6 +10,7 @@ import {
   StyleSheet,
   Dimensions,
   Linking,
+  Alert,
 } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import { Feather, FontAwesome } from '@expo/vector-icons';
@@ -33,9 +34,10 @@ interface Orphanage {
   latitude: number;
   longitude: number;
   about: string;
+  whatsapp: string;
   instructions: string;
   opening_hours: string;
-  open_on_weekends: boolean;
+  open_on_weekend: boolean;
   images: Array<{
     id: number;
     url: string;
@@ -67,6 +69,12 @@ export default function OrphanageDetails() {
       `https://www.google.com/maps/dir/?api=1&destination=${orphanage?.latitude},${orphanage?.longitude}`,
     );
   }
+
+  const handleContact = () => {
+    Linking.openURL(
+      `https://api.whatsapp.com/send?phone=55${orphanage.whatsapp}&text=Olá, gostaria de informações adicionais sobre o orfanato`,
+    );
+  };
 
   return (
     <ScrollView style={styles.container}>
@@ -136,7 +144,7 @@ export default function OrphanageDetails() {
               Segunda à Sexta {orphanage.opening_hours}
             </Text>
           </View>
-          {orphanage.open_on_weekends ? (
+          {orphanage.open_on_weekend ? (
             <View style={[styles.scheduleItem, styles.scheduleItemGreen]}>
               <Feather name="info" size={40} color="#39CC83" />
               <Text style={[styles.scheduleText, styles.scheduleTextGreen]}>
@@ -153,10 +161,10 @@ export default function OrphanageDetails() {
           )}
         </View>
 
-        {/* <RectButton style={styles.contactButton} onPress={handleContact}>
+        <RectButton style={styles.contactButton} onPress={handleContact}>
           <FontAwesome name="whatsapp" size={24} color="#FFF" />
           <Text style={styles.contactButtonText}>Entrar em contato</Text>
-        </RectButton> */}
+        </RectButton>
       </View>
     </ScrollView>
   );

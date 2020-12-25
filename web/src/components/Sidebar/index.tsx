@@ -2,7 +2,7 @@ import React from 'react';
 import { FiArrowLeft } from 'react-icons/fi';
 import { useHistory } from 'react-router-dom';
 
-import mapMarkerImg from "../../assets/images/map-marker.svg";
+import mapMarkerImg from '../../assets/images/map-marker.svg';
 
 import './styles.css';
 
