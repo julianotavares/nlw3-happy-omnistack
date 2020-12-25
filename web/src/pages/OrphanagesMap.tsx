@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { FiPlus } from 'react-icons/fi';
-import { MapContainer, TileLayer } from 'react-leaflet';
+import { Map, TileLayer } from 'react-leaflet';
 
 import 'leaflet/dist/leaflet.css'
 
@@ -26,7 +26,7 @@ function OrphanagesMap() {
         </footer>
       </aside>
 
-      <MapContainer 
+      <Map 
         center={[-17.5647561,-52.5557263]}
         zoom={15}
         style={{
@@ -38,7 +38,7 @@ function OrphanagesMap() {
         <TileLayer
           url={`https://api.mapbox.com/styles/v1/mapbox/light-v10/tiles/256/{z}/{x}/{y}@2x?access_token=${process.env.REACT_APP_MAPBOX_TOKEN}`}
         />
-      </MapContainer>
+      </Map>
 
       <Link to="" className="create-orphanage">
         <FiPlus size={32} color="#fff" />

@@ -35,7 +35,7 @@ export default function Orphanage() {
   const [activeImageIndex, setActiveImageIndex] = useState(0);
 
   useEffect(() => {
-    api.get(`orphanages/${params.id}`).then(response => {
+    api.get(`orphanages/${params.id}`).then((response: { data: React.SetStateAction<Orphanage | undefined>; }) => {
       setOrphanage(response.data);
     })
   }, [params.id]);

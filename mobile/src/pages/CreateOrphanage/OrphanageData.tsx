@@ -1,7 +1,8 @@
+/* eslint-disable no-alert */
 /* eslint-disable no-use-before-define */
 /* eslint-disable camelcase */
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   ScrollView,
   View,
@@ -9,6 +10,7 @@ import {
   Switch,
   Text,
   TextInput,
+  Image,
   TouchableOpacity,
 } from 'react-native';
 import { Feather } from '@expo/vector-icons';
@@ -16,36 +18,72 @@ import { RectButton } from 'react-native-gesture-handler';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import * as ImagePicker from 'expo-image-picker';
 
+import api from '../../services/api';
+
 interface OrphanageDataRouteParams {
   position: { latitude: number; longitude: number };
 }
 
 export default function OrphanageData() {
-  const route = useRoute();
+  const [name, setName] = useState('');
+  const [about, setAbout] = useState('');
+  const [instructions, setInstructions] = useState('');
+  const [opening_hours, setOpeningHours] = useState('');
+  const [open_on_weekend, setOpenOnWeekend] = useState(true);
+  const [images, setImages] = useState<string[]>([]);
+
   const navigation = useNavigation();
 
-  const [open_on_weekends, setOpenOnWeekends] = useState(false);
-
+  const route = useRoute();
   const params = route.params as OrphanageDataRouteParams;
-  const { position } = params;
 
-  function handleCreateOrphanage() {
-    // todo
+  async function handleCreateOrphanage() {
+    const { latitude, longitude } = params.position;
+
+    const data = new FormData();
+
+    data.append('name', name);
+    data.append('about', about);
+    data.append('latitude', String(latitude));
+    data.append('longitude', String(longitude));
+    data.append('instructions', instructions);
+    data.append('opening_hours', opening_hours);
+    data.append('open_on_weekend', String(open_on_weekend));
+
+    images.forEach((image: any, index: any) => {
+      data.append('images', {
+        name: `image_${index}.jpg`,
+        type: 'image/jpg',
+        uri: image,
+      } as any);
+    });
+
+    await api.post('orphanages', data);
+
+    navigation.navigate('OrphanagesMap');
   }
 
   async function handleSelectImages() {
     const { status } = await ImagePicker.requestCameraRollPermissionsAsync();
 
     if (status !== 'granted') {
-      alert('Eita! Precisamos de acesso às suas fotos...');
+      alert('Opa! Precisamos de acesso às suas fotos...');
+      return;
     }
 
     const result = await ImagePicker.launchImageLibraryAsync({
       allowsEditing: true,
       quality: 1,
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
     });
 
-    console.log(result);
+    if (result.cancelled) {
+      return;
+    }
+
+    const { uri: image } = result;
+
+    setImages([...images, image]);
   }
 
   return (
@@ -56,15 +94,32 @@ export default function OrphanageData() {
       <Text style={styles.title}>Dados</Text>
 
       <Text style={styles.label}>Nome</Text>
-      <TextInput style={styles.input} />
+      <TextInput style={styles.input} value={name} onChangeText={setName} />
 
       <Text style={styles.label}>Sobre</Text>
-      <TextInput style={[styles.input, { height: 110 }]} multiline />
+      <TextInput
+        style={[styles.input, { height: 110 }]}
+        multiline
+        value={about}
+        onChangeText={setAbout}
+      />
 
       <Text style={styles.label}>Whatsapp</Text>
       <TextInput style={styles.input} />
 
       <Text style={styles.label}>Fotos</Text>
+      <View style={styles.uploadedImagesContainer}>
+        {images.map(image => {
+          return (
+            <Image
+              key={image}
+              source={{ uri: image }}
+              style={styles.uploadedImage}
+            />
+          );
+        })}
+      </View>
+
       <TouchableOpacity style={styles.imagesInput} onPress={handleSelectImages}>
         <Feather name="plus" size={24} color="#15B6D6" />
       </TouchableOpacity>
@@ -72,18 +127,27 @@ export default function OrphanageData() {
       <Text style={styles.title}>Visitação</Text>
 
       <Text style={styles.label}>Instruções</Text>
-      <TextInput style={[styles.input, { height: 110 }]} multiline />
+      <TextInput
+        style={[styles.input, { height: 110 }]}
+        multiline
+        value={instructions}
+        onChangeText={setInstructions}
+      />
 
-      <Text style={styles.label}>Horario de visitas</Text>
-      <TextInput style={styles.input} />
+      <Text style={styles.label}>Horário de visitas</Text>
+      <TextInput
+        style={styles.input}
+        value={opening_hours}
+        onChangeText={setOpeningHours}
+      />
 
       <View style={styles.switchContainer}>
         <Text style={styles.label}>Atende final de semana?</Text>
         <Switch
           thumbColor="#fff"
           trackColor={{ false: '#ccc', true: '#39CC83' }}
-          value={open_on_weekends}
-          onValueChange={setOpenOnWeekends}
+          value={open_on_weekend}
+          onValueChange={setOpenOnWeekend}
         />
       </View>
 
@@ -130,6 +194,18 @@ const styles = StyleSheet.create({
     paddingHorizontal: 24,
     marginBottom: 16,
     textAlignVertical: 'top',
+  },
+
+  uploadedImagesContainer: {
+    flexDirection: 'row',
+  },
+
+  uploadedImage: {
+    width: 64,
+    height: 64,
+    borderRadius: 20,
+    marginBottom: 32,
+    marginRight: 8,
   },
 
   imagesInput: {
