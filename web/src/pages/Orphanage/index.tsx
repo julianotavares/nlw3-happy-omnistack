@@ -1,10 +1,12 @@
+/* eslint-disable no-template-curly-in-string */
+/* eslint-disable no-restricted-globals */
 /* eslint-disable react/jsx-no-target-blank */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useEffect, useState } from 'react';
 import { FaWhatsapp } from 'react-icons/fa';
 import { FiClock, FiInfo } from 'react-icons/fi';
 import { Marker, TileLayer } from 'react-leaflet';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import L from 'leaflet';
 
 import PrimaryButton from '../../components/PrimaryButton';
@@ -66,7 +68,7 @@ export default function Orphanage() {
               return (
                 <button
                   key={image.id}
-                  className="active"
+                  className={activeImageIndex === index ? 'active' : ''}
                   type="button"
                   onClick={() => {
                     setActiveImageIndex(index);
@@ -136,11 +138,16 @@ export default function Orphanage() {
                 </div>
               )}
             </div>
-
-            <PrimaryButton type="button">
-              <FaWhatsapp size={20} color="#FFF" />
-              Entrar em contato
-            </PrimaryButton>
+            <a
+              rel="noopener noreferrer"
+              href={`https://api.whatsapp.com/send?phone=55${orphanage.whatsapp}&text=Olá, gostaria de informações adicionais sobre o orfanato`}
+              target="_blank"
+            >
+              <PrimaryButton type="button">
+                <FaWhatsapp size={20} color="#FFF" />
+                Entrar em contato
+              </PrimaryButton>
+            </a>
           </div>
         </div>
       </main>
