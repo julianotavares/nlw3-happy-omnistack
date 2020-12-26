@@ -109,6 +109,9 @@
   color: #4D6F80;
 }
 
+.orphanage-details .orphanage-details-content .open-details a {
+  text-decoration: none;
+}
 .orphanage-details .orphanage-details-content .open-details {
   margin-top: 24px;
 
