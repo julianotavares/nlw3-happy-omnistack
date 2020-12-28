@@ -1,0 +1,9 @@
+node_modules
+yarn.lock
+uploads/*
+!uploads/*
+build
+npm-debug.log
+.env
+.DS_Store
+yarn.lock
