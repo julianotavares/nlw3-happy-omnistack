@@ -27,6 +27,7 @@ yarn
 ```
 ## Como utilizar
 #Backend
+
 Depois de instalado as dependências, entre na pasta Backend e execute no terminal o comando para iniciar o servidor Node.
 ```sh
 yarn dev
@@ -50,7 +51,7 @@ yarn start
 - [Expo cli](https://expo.io/)
 - [SqLite](https://www.sqlite.org/)
 
-## Contributing
+## Contribuindo
 
 1. Faça o _fork_ do projeto (<https://github.com/julianotavares/nlw3-happy-omnistack/fork>)
 2. Crie uma _branch_ para sua modificação (`git checkout -b feature/fooBar`)
